@@ -1,0 +1,30 @@
+[
+  {
+    "name": "samar",
+    "age": 25,
+    "email": "samar@gmail.com",
+    "gender": "male",
+    "phone": "1234567890"
+  },
+  {
+    "name": "pranav",
+    "age": 30,
+    "email": "pranav@gmail.com",
+    "gender": "male",
+    "phone": "12367890"
+  },
+  {
+    "name": "priyanka",
+    "age": 29,
+    "email": "priyanka@gmail.com",
+    "gender": "female",
+    "phone": "12367890"
+  },
+  {
+    "name": "jay",
+    "age": 60,
+    "email": "jay@gmail.com",
+    "gender": "male",
+    "phone": "12347890"
+  }
+]
