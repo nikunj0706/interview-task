@@ -7,43 +7,36 @@ const Task = () => {
     const [mobxusers, setMobXUsers] = useState(observable(data))
     const [isNew, setIsNew] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
-
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
     const [email, setEmail] = useState("");
-    const [gender, setGender] = useState("");
+    const [gender, setGender] = useState("male");
     const [phone, setPhone] = useState("");
     const [isSelected, setIsSelected] = useState(false);
     const [list, setList] = useState([]);
-
 
     const setDefaultValues = () => {
         setIsNew(true);
         setName("");
         setAge("");
         setEmail("");
-        setGender("");
+        setGender("male");
         setPhone("");
     };
 
     const deleteMultiple = () => {
         if (list.length === 0) {
-            alert("Please select one or more profles for delete");
+            alert("Please select one or more checkboxes for delete");
             return;
         }
-        console.log('List', list);
         let temp = [...mobxusers];
         list.forEach(email => {
             let one = temp.findIndex(el => el.email === email);
             temp.splice(one, 1);
-            /* setMobXUsers(prev => {
-                prev.splice(one, 1);
-                return prev;
-            }); */
         });
         setMobXUsers(temp);
-
         setList([]);
+        setDefaultValues();
     }
 
     const manageDeleteList = (email, isTrue) => {
@@ -51,12 +44,9 @@ const Task = () => {
         setIsSelected(isTrue);
         let temp = [...list];
         if (isTrue) {
-
             temp.push(email);
             setList(temp);
-
         } else {
-
             let one = temp.findIndex((el) => el === email);
             temp.splice(one, 1);
             setList(temp);
@@ -75,11 +65,9 @@ const Task = () => {
     }
 
     const addOrUpdate = () => {
-
-        let one = mobxusers.findIndex(el => el.email === email);
-
+        let one = mobxusers.findIndex(el => el.email.toLowerCase() === email.toLowerCase());
         if (isNew) {
-            if (one) {
+            if (one >= 0) {
                 alert("Email already registered");
                 return;
             }
@@ -95,7 +83,7 @@ const Task = () => {
             });
             setDefaultValues();
         } else {
-            if (one && one !== currentIndex) {
+            if (one >= 0 && one !== currentIndex) {
                 alert("Email already registered");
                 return;
             }
@@ -105,16 +93,10 @@ const Task = () => {
             mobxusers[currentIndex].gender = gender;
             mobxusers[currentIndex].phone = phone;
             setDefaultValues();
-
         }
-
     }
-
-
     return (
         <>
-
-
             <div className="container">
                 <div className="row">
                     <div className="col-md-8">
@@ -126,11 +108,9 @@ const Task = () => {
                             >
                                 Add New User
                              </button>
-                            <button style = {{marginLeft: '20px'}} onClick={() => { deleteMultiple() }} >Delete Users</button>
+                            <button style={{ marginLeft: '20px' }} onClick={() => { deleteMultiple() }} >Delete Users</button>
                         </div>
-
-
-                        <table style = {{marginTop: '20px'}} className="table table-striped">
+                        <table style={{ marginTop: '20px' }} className="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -139,7 +119,6 @@ const Task = () => {
                                     <th>Gender</th>
                                     <th>Phone</th>
                                     <th></th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,10 +131,6 @@ const Task = () => {
                                                 <td> {user.email} </td>
                                                 <td> {user.gender} </td>
                                                 <td> {user.phone} </td>
-                                                {/* <td>
-                          {" "}
-                          <button onClick={() => deleteUser(index)}>Delete</button>{" "}
-                        </td> */}
                                                 <td>
                                                     <input type="checkbox" value={isSelected} onChange={(e) => { manageDeleteList(user.email, e.currentTarget.checked) }} />
                                                 </td>
@@ -183,7 +158,7 @@ const Task = () => {
                             <div className="row">
                                 <div className="form-group col-md-12">
                                     <label>Age</label>
-                                    <input type="text" className="form-control" value={age} onChange={(e) => { setAge(e.currentTarget.value) }} placeholder="Age" required />
+                                    <input type="number" min="1" max="100" className="form-control" value={age} onChange={(e) => { setAge(e.currentTarget.value) }} placeholder="Age" required />
                                 </div>
                             </div>
                             <div className="row">
@@ -195,13 +170,21 @@ const Task = () => {
                             <div className="row">
                                 <div className="form-group col-md-12">
                                     <label>Gender</label>
-                                    <input type="text" className="form-control" placeholder="Gender" value={gender} onChange={(e) => { setGender(e.currentTarget.value) }} />
+                                    {/* <input type="text" className="form-control" placeholder="Gender" value={gender} onChange={(e) => { setGender(e.currentTarget.value) }} /> */}
+                                    <select className="form-control" value={gender} onChange={(e) => { setGender(e.currentTarget.value) }}>
+                                        <option value="male">
+                                            Male
+                                    </option>
+                                        <option value="female">
+                                            Female
+                                    </option>
+                                    </select>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="form-group col-md-12">
                                     <label>Phone</label>
-                                    <input type="text" className="form-control" placeholder="Phone" value={phone} onChange={(e) => { setPhone(e.currentTarget.value) }} />
+                                    <input type="text" className="form-control" pattern="[789][0-9]{9}" placeholder="Phone" value={phone} onChange={(e) => { setPhone(e.currentTarget.value) }} />
                                 </div>
                             </div>
                             <button type="submit" className="btn mx-auto d-block  btn-primary"> {isNew ? "Add" : "Update"}</button>

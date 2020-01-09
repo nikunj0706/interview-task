@@ -1,13 +1,9 @@
 import React from "react";
-import Display from "./componnts/Display";
 import Task from './componnts/Task'
 
 function App() {
   return (
-    <>
-      {/* <Display /> */}
-      <Task />
-    </>
+    <Task />
   );
 }
 
